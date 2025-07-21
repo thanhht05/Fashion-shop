@@ -11,4 +11,6 @@ import com.thanh.fashion_shop.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     boolean existsByEmail(String email);
+
+    User findByEmail(String username);
 }

@@ -9,6 +9,8 @@ import com.thanh.fashion_shop.service.UserService;
 import com.thanh.fashion_shop.util.exceptions.CommonException;
 import com.turkraft.springfilter.boot.Filter;
 
+import jakarta.validation.Valid;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -40,7 +42,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<UserResponeDto> handleCreateUser(@RequestBody User reqUser) throws CommonException {
+    public ResponseEntity<UserResponeDto> handleCreateUser(@Valid @RequestBody User reqUser) throws CommonException {
         String hashPassword = passwordEncoder.encode(reqUser.getPassword());
         reqUser.setPassword(hashPassword);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.createUser(reqUser));

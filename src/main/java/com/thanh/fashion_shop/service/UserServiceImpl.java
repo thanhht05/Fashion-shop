@@ -128,4 +128,10 @@ public class UserServiceImpl implements UserService {
         System.out.println("ok");
     }
 
+    @Override
+    public User fetchUserByUsername(String username) {
+        User user = this.userRepository.findByEmail(username);
+        return user;
+    }
+
 }

@@ -15,6 +15,8 @@ public interface UserService {
 
     UserResponeDto fetchUserById(Long id) throws CommonException;
 
+    User fetchUserByUsername(String username);
+
     boolean checkExistsByEmail(String email);
 
     PaginationResponse fetchAllUser(Pageable pageable, Specification<User> spec);
