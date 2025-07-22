@@ -2,6 +2,9 @@ package com.thanh.fashion_shop.domain;
 
 import java.time.Instant;
 
+import com.thanh.fashion_shop.util.SecurityUtil;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,12 +24,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "Name không được trống")
     private String name;
     @NotBlank(message = "Email không được trống")
     private String email;
     @NotBlank(message = "Password không được trống")
     private String password;
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String refreshToken;
     private String phone;
     private String address;
     private String createdBy;
@@ -38,10 +42,18 @@ public class User {
     @PrePersist
     public void handleBeforeCreate() {
         this.createdDate = Instant.now();
+        this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent()
+                ? SecurityUtil.getCurrentUserLogin().get()
+                : "";
+        System.out.println("sdff");
     }
 
     @PreUpdate
     public void handelPreUpdate() {
         this.updatedDate = Instant.now();
+        this.updatedBy = SecurityUtil.getCurrentUserLogin().isPresent()
+                ? SecurityUtil.getCurrentUserLogin().get()
+                : "";
+        System.out.println("fdf");
     }
 }

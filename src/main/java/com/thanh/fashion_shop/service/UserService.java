@@ -23,4 +23,5 @@ public interface UserService {
 
     void deleteUserById(Long id) throws CommonException;
 
+    void updateUserToken(String email, String refreshToken);
 }

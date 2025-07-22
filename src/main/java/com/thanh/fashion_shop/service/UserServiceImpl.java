@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkExistsByEmail(String email) {
+
         return this.userRepository.existsByEmail(email);
     }
 
@@ -132,6 +133,14 @@ public class UserServiceImpl implements UserService {
     public User fetchUserByUsername(String username) {
         User user = this.userRepository.findByEmail(username);
         return user;
+    }
+
+    public void updateUserToken(String email, String refreshToken) {
+        User user = this.fetchUserByUsername(email);
+        if (user != null) {
+            user.setRefreshToken(refreshToken);
+            this.userRepository.save(user);
+        }
     }
 
 }
