@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.thanh.fashion_shop.domain.Role;
 import com.thanh.fashion_shop.domain.User;
 import com.thanh.fashion_shop.domain.respone.PaginationResponse;
 import com.thanh.fashion_shop.domain.respone.user.UserResponeDto;
@@ -22,9 +23,11 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final RoleService roleService;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService) {
         this.userRepository = userRepository;
+        this.roleService = roleService;
     }
 
     @Override
@@ -60,6 +63,10 @@ public class UserServiceImpl implements UserService {
         if (reqUser.getName() != null) {
             user.setName(reqUser.getName());
         }
+        if (reqUser.getRole() != null) {
+            Role role = this.roleService.fetchRoleById(reqUser.getRole().getId());
+            user.setRole(role != null ? role : null);
+        }
 
         user = this.userRepository.save(user);
 
@@ -83,6 +90,7 @@ public class UserServiceImpl implements UserService {
         }
 
         UserResponeDto res = new UserResponeDto();
+        UserResponeDto.RoleUSer role = new UserResponeDto.RoleUSer();
         res.setEmail(user.getEmail());
         res.setId(user.getId());
         res.setName(user.getName());
@@ -92,6 +100,11 @@ public class UserServiceImpl implements UserService {
         res.setCreatedDate(user.getCreatedDate());
         res.setUpdatedDate(user.getUpdatedDate());
         res.setUpdatetedBy(user.getUpdatedBy());
+        if (user.getRole() != null) {
+            role.setId(user.getRole().getId());
+            role.setName(user.getRole().getName());
+            res.setRole(role);
+        }
         return res;
 
     }

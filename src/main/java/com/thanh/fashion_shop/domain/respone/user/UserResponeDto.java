@@ -2,6 +2,8 @@ package com.thanh.fashion_shop.domain.respone.user;
 
 import java.time.Instant;
 
+import com.thanh.fashion_shop.domain.Role;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,4 +19,14 @@ public class UserResponeDto {
     private Instant updatedDate;
     private String createdBy;
     private String updatetedBy;
+    private RoleUSer role;
+
+    @Getter
+    @Setter
+    public static class RoleUSer {
+        private Long id;
+        private String name;
+
+    }
+
 }
